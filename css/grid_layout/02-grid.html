@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>grid布局基础</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #grid {
+            display: grid;
+            /* 三列 每列宽100px */
+            grid-template-columns: [c1] 100px [c2] 100px [c3] 100px;
+            column-gap: 10px;
+            /* 很多重复值 可用repeat */
+            /* grid-template-columns: repeat(3, 100px); */
+            /* 三行 每行高100px */
+            grid-template-rows: [r1] 100px [r2] 100px [r3] 100px;
+            row-gap: 10px;
+            /* grid-template-rows: repeat(3, 100px); */
+            grid-template-areas: 'a a a'
+                                 'd e f'
+                                 'g h i';
+        }
+        #grid div {
+            text-align: center;
+            line-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <span>foo</span>
+    <div id="grid">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+        <div>9</div>
+    </div>
+    <span>bar</span>
+    <script>
+        const items = document.querySelectorAll('#grid div');
+        const colorList = ['#ef342a','#f68f26','#4ba946','#0376c2','#c077af','#f8d29d','#b5a87f','#d0e4a9','#4dc7ec'];
+        console.log(items);
+        Array.from(items).forEach((item, index) => {
+            item.style.backgroundColor = colorList[index]
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>grid布局基础</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* minmax -> 在两者之间产生一个数值 */
+            grid-template-columns: 1fr 1fr minmax(100px, 50px);
+            /* 两边100px 中间自适应 */
+            /* grid-template-columns: 100px auto 100px; */
+        }
+        #grid {
+            display: grid;
+        }
+        #grid div {
+            text-align: center;
+            line-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <span>foo</span>
+    <div id="grid">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+        <div>9</div>
+    </div>
+    <span>bar</span>
+    <script>
+        const items = document.querySelectorAll('#grid div');
+        const colorList = ['#ef342a','#f68f26','#4ba946','#0376c2','#c077af','#f8d29d','#b5a87f','#d0e4a9','#4dc7ec'];
+        console.log(items);
+        Array.from(items).forEach((item, index) => {
+            item.style.backgroundColor = colorList[index]
+        });
+    </script>
+</body>
+</html>
