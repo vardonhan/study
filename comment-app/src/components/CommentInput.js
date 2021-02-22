@@ -1,12 +1,31 @@
 import { Component } from 'react'
+import propTypes from 'prop-types'
 
 export default class ComponentInput extends Component {
+  static propTypes = {
+    onSubmit: propTypes.func
+  }
+
   constructor () {
     super()
     this.state = {
       userName: '',
       content: ''
     }
+  }
+
+  componentDidMount () {
+    this._loadUserName()
+    this.textarea.focus()
+  }
+
+  _loadUserName () {
+    const userName = window.localStorage.getItem('userName')
+    if (userName) this.setState({userName})
+  }
+
+  _saveUserName (name) {
+    window.localStorage.setItem('userName', name)
   }
 
   handleValueChange(type, e) {
@@ -26,6 +45,10 @@ export default class ComponentInput extends Component {
     })
   }
 
+  handleInputBlur (e) {
+    this._saveUserName(e.target.value)
+  }
+
   render () {
     return (
       <div className='comment-input'>
@@ -35,6 +58,7 @@ export default class ComponentInput extends Component {
             <input
               value={this.state.userName}
               onChange={this.handleValueChange.bind(this, 'userName')}
+              onBlur={this.handleInputBlur.bind(this)}
             />
           </div>
         </div>
@@ -42,6 +66,7 @@ export default class ComponentInput extends Component {
           <span className='comment-field-name'>评论内容：</span>
           <div className='comment-field-input'>
             <textarea
+              ref={textarea => this.textarea = textarea}
               value={this.state.content}
               onChange={this.handleValueChange.bind(this, 'content')}
             />
