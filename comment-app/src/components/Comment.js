@@ -3,7 +3,8 @@ import propTypes from 'prop-types'
 
 export default class Comment extends Component {
   static propTypes = {
-    comment: propTypes.object.isRequired
+    comment: propTypes.object.isRequired,
+    onDelComment: propTypes.func,
   }
   constructor () {
     super()
@@ -28,7 +29,9 @@ export default class Comment extends Component {
     })
   }
   handleDelComment (comment) {
-    console.log(comment)
+    if (this.props.onDelComment) {
+      this.props.onDelComment(comment)
+    }
   }
   render () {
     const { comment } = this.props

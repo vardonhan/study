@@ -2,26 +2,20 @@ import { Component } from 'react'
 import './index.css'
 import CommentInput from './CommentInput'
 import CommentList from './CommentList'
+import WrapLoadData from './WrapLoadData'
+import propTypes from 'prop-types'
 
-export default class ComponentApp extends Component {
-  constructor () {
-    super()
+class ComponentApp extends Component {
+  static propTypes = {
+    data: propTypes.any,
+    saveData: propTypes.func.isRequired
+  }
+  constructor (props) {
+    console.log(props)
+    super(props)
     this.state = {
-      comments: []
+      comments: props.data
     }
-  }
-
-  componentDidMount () {
-    this._loadComments()
-  }
-
-  _loadComments () {
-    const comments = JSON.parse(window.localStorage.getItem('comments'))
-    if (comments && Array.isArray(comments)) this.setState({comments})
-  }
-
-  _saveComments (comments) {
-    window.localStorage.setItem('comments', JSON.stringify(comments))
   }
 
   handleSubmit (comment) {
@@ -36,7 +30,15 @@ export default class ComponentApp extends Component {
     this.setState({
       comments: this.state.comments
     })
-    this._saveComments(this.state.comments)
+    this.props.saveData(this.state.comments)
+  }
+
+  handleDelComment (component) {
+    const comments = this.state.comments
+    const index = this.state.comments.findIndex(item => item.id === component.id)
+    comments.splice(index, 1)
+    this.setState({ comments })
+    this.props.saveData(comments)
   }
 
   render () {
@@ -47,8 +49,11 @@ export default class ComponentApp extends Component {
         />
         <CommentList
           comments={this.state.comments}
+          onDelComment={this.handleDelComment.bind(this)}
         />
       </div>
     )
   }
 }
+ComponentApp = WrapLoadData(ComponentApp, 'comments')
+export default ComponentApp
